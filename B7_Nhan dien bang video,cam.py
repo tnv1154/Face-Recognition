@@ -35,3 +35,10 @@ print(len(encodeList))
 
 #Mở cam
 cap = cv2.VideoCapture(0)
+while True:
+    ret, frame = cap.read()
+    frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    #Xác định vị trí khuôn mặt trên cam và encode
+    faceCurrFrame = fr.face_locations(frame) #lấy từng khuôn mặt
+    encodeCurFrame = fr.face_encodings(faceCurrFrame)
