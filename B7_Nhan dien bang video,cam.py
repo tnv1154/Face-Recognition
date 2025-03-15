@@ -4,7 +4,7 @@ import face_recognition as fr
 import os #load thư viện ảnh
 import numpy as np
 
-path = "Picture/pic2"
+path = "Picture/Me"
 #lưu ma trận điểm ảnh
 imges = []
 #lưu tên các file ảnh
@@ -24,8 +24,9 @@ def maHoa(images):
     """Mã hóa list ảnh"""
     encodeList = []
     for img in images:
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        encode = fr.face_encodings(img)[0]
+        #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        faceLoc = fr.face_locations(img)
+        encode = fr.face_encodings(img, faceLoc)[0]
         encodeList.append(encode)
     return encodeList
 
@@ -34,14 +35,15 @@ print("Ma hoa thanh cong")
 print(len(encodeList))
 
 #Mở cam
-cap = cv2.VideoCapture("Picture/video-test.mp4")
+cap = cv2.VideoCapture(1)
 while True:
     ret, frame = cap.read()
-    frame = cv2.resize(frame, (0, 0), None ,fx=0.5, fy=0.5)
-    framS = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    frame = cv2.resize(frame, (0, 0), None ,fx=1, fy=1)
+    #framS = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    framS = frame
     #Xác định vị trí khuôn mặt trên cam và encode
     faceCurrFrame = fr.face_locations(framS) #lấy vị trí từng khuôn mặt
-    encodeCurFrame = fr.face_encodings(framS)
+    encodeCurFrame = fr.face_encodings(framS, faceCurrFrame)
     #zip : chạy song song 2 list trong zip
 
     for encodeFace, faceLoc in zip(encodeCurFrame, faceCurrFrame):

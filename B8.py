@@ -25,6 +25,7 @@ for filepath in Path(path).glob("*"):
         names.append(name)
         encodings.append(encoding)
 
+    #Đưa các ma trận khuôn mặt vào file nhị phân
     name_encodings = {"name": names, "encoding": encodings}
-    with  .open(mode="wb") as f:
+    with Path(encoding_location).open(mode="wb") as f:
         pickle.dump(name_encodings, f)
